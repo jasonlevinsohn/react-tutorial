@@ -1,5 +1,4 @@
 var React = require('react');
-var ReactDOM = require('react-dom');
 
 var Home =  React.createClass({
 	render: function() {
@@ -10,4 +9,3 @@ var Home =  React.createClass({
 		)
 	}
 });
-ReactDOM.render(<Home />, document.getElementById('app'));
