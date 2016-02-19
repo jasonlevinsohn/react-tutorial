@@ -5,14 +5,27 @@ var UserProfile = require('./github/UserProfile');
 var Notes = require('./Notes/Notes');
 
 var Profile = React.createClass({
+    mixins: [],
     getInitialState: function() {
         return {
-            notes: [1, 2, 3],
+            notes: [
+                'Get two farm gates',
+                'Build new door for chicken coop',
+                'Put down grass seed',
+                'Pick up sticks ;)'
+            ],
             bio: {
                 name: 'Jason Levinsohn'
             },
             repos: ['a', 'b', 'c']
         }
+    },
+    // Put all ajax requests and listeners here.
+    componentDidMount: function() {
+       console.log('We mounted');
+    },
+    componentWillUnmount: function() {
+       console.log('We unmounted');
     },
     render: function() {
         return (
@@ -21,10 +34,10 @@ var Profile = React.createClass({
                     <UserProfile username={this.props.params.username} bio={this.state.bio}/>
                 </div>
                 <div className="col-md-4">
-                    <Repos repos={this.state.repos}/>
+                    <Repos username={this.props.params.username} repos={this.state.repos}/>
                 </div>
                 <div className="col-md-4">
-                    <Notes notes={this.state.notes}/>
+                    <Notes username={this.props.params.username} notes={this.state.notes}/>
                 </div>
             </div>
         )
