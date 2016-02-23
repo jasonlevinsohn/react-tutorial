@@ -1,8 +1,11 @@
 var React = require('react');
 
-var Profile = React.createClass({
+var UserProfile = React.createClass({
+    propTypes: {
+        username: React.PropTypes.string.isRequired,
+        bio: React.PropTypes.object.isRequired
+    },
     render: function() {
-
         return (
             <div>
                 <p> User Profile</p>
@@ -13,5 +16,5 @@ var Profile = React.createClass({
     }
 });
 
-module.exports = Profile;
+module.exports = UserProfile;
 
