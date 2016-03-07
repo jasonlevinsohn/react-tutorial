@@ -31,6 +31,7 @@ var Profile = React.createClass({
         console.log('New Notes are awesome: ', newNote);
         this.state.notes.push(newNote);
         console.log('NOtes: ', Notes);
+        window.Notes = Notes;
     },
     render: function() {
         return (
