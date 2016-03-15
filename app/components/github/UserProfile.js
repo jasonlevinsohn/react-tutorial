@@ -9,8 +9,8 @@ var UserProfile = React.createClass({
         return (
             <div>
                 <p> User Profile</p>
-                <p>Username: {this.props.username}</p>
-                <p>Bio: {this.props.bio.name}</p>
+                {this.props.bio.avatar_url && <li className="list-group-item"><img style={{maxWidth: 200 + 'px'}} src={this.props.bio.avatar_url} /></li>}
+                {this.props.bio.email && <li className="list-group-item">Email: {this.props.bio.email} </li>}
             </div>
         )
     }

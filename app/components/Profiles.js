@@ -3,6 +3,7 @@ var Router = require('react-router');
 var Repos = require('./github/Repos');
 var UserProfile = require('./github/UserProfile');
 var Notes = require('./Notes/Notes');
+var helpers = require('../utils/helpers');
 
 var Profile = React.createClass({
     mixins: [],
@@ -23,15 +24,31 @@ var Profile = React.createClass({
     // Put all ajax requests and listeners here.
     componentDidMount: function() {
        console.log('We mounted');
+
+       console.log('Helpers: ', helpers);
+
+       helpers.getGithubInfo(this.props.params.username)
+           .then(function(data) {
+
+               console.log('The Data: ', data);
+               this.setState({
+                bio: data.bio,
+                repos: data.repos
+               });
+           }.bind(this));
     },
     componentWillUnmount: function() {
        console.log('We unmounted');
     },
     handleAddNote: function(newNote) {
-        console.log('New Notes are awesome: ', newNote);
-        this.state.notes.push(newNote);
-        console.log('NOtes: ', Notes);
-        window.Notes = Notes;
+        // Doesn't save it to firebase and persist, but Firebase was giving
+        // me errors so this is the best we can do.
+        var newNotes = this.state.notes;
+        newNotes.push(newNote);
+        newNotes = this.state.notes;
+        this.setState({
+            notes: newNotes
+        });
     },
     render: function() {
         return (
