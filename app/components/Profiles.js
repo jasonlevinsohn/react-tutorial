@@ -26,8 +26,14 @@ var Profile = React.createClass({
        console.log('We mounted');
 
        console.log('Helpers: ', helpers);
+       this.init(this.props.params.username);
 
-       helpers.getGithubInfo(this.props.params.username)
+    },
+    componentWillUnmount: function() {
+       console.log('We unmounted');
+    },
+    init: function(username) {
+       helpers.getGithubInfo(username)
            .then(function(data) {
 
                console.log('The Data: ', data);
@@ -37,8 +43,9 @@ var Profile = React.createClass({
                });
            }.bind(this));
     },
-    componentWillUnmount: function() {
-       console.log('We unmounted');
+    componentWillReceiveProps: function(newProps) {
+        console.log('New Props: ', newProps);
+        this.init(newProps.params.username);
     },
     handleAddNote: function(newNote) {
         // Doesn't save it to firebase and persist, but Firebase was giving
