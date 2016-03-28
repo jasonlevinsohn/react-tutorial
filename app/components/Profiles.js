@@ -3,7 +3,7 @@ var Router = require('react-router');
 var Repos = require('./github/Repos');
 var UserProfile = require('./github/UserProfile');
 var Notes = require('./Notes/Notes');
-var helpers = require('../utils/helpers');
+import getGithubInfo from '../utils/helpers'
 
 var Profile = React.createClass({
     mixins: [],
@@ -25,7 +25,6 @@ var Profile = React.createClass({
     componentDidMount: function() {
        console.log('We mounted');
 
-       console.log('Helpers: ', helpers);
        this.init(this.props.params.username);
 
     },
@@ -33,7 +32,7 @@ var Profile = React.createClass({
        console.log('We unmounted');
     },
     init: function(username) {
-       helpers.getGithubInfo(username)
+       getGithubInfo(username)
            .then(function(data) {
 
                console.log('The Data: ', data);
