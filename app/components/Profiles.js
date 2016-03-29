@@ -2,7 +2,7 @@ var React = require('react');
 var Router = require('react-router');
 var Repos = require('./github/Repos');
 var UserProfile = require('./github/UserProfile');
-var Notes = require('./Notes/Notes');
+import Notes from './Notes/Notes';
 import getGithubInfo from '../utils/helpers'
 
 var Profile = React.createClass({
