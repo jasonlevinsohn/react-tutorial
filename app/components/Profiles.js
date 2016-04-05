@@ -1,7 +1,7 @@
 var React = require('react');
 var Router = require('react-router');
-var Repos = require('./github/Repos');
-var UserProfile = require('./github/UserProfile');
+import Repos from './github/Repos';
+import UserProfile from './github/UserProfile';
 import Notes from './Notes/Notes';
 import getGithubInfo from '../utils/helpers'
 
