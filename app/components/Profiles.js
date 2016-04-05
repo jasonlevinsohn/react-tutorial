@@ -1,37 +1,45 @@
-var React = require('react');
-var Router = require('react-router');
+import React from 'react';
 import Repos from './github/Repos';
 import UserProfile from './github/UserProfile';
 import Notes from './Notes/Notes';
-import getGithubInfo from '../utils/helpers'
+import getGithubInfo from '../utils/helpers';
+import Rebase from 're-base';
 
-var Profile = React.createClass({
-    mixins: [],
-    getInitialState: function() {
-        return {
+const base = Rebase.createClass('https://jlev-fire-app.firebaseio.com/');
+
+class Profile extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
             notes: [
-                'Get two farm gates',
-                'Build new door for chicken coop',
-                'Put down grass seed',
-                'Pick up sticks ;)'
             ],
             bio: {
                 name: 'Jason Levinsohn'
             },
             repos: ['a', 'b', 'c']
         }
-    },
+    
+    }
+
     // Put all ajax requests and listeners here.
-    componentDidMount: function() {
+    componentDidMount() {
        console.log('We mounted');
 
        this.init(this.props.params.username);
 
-    },
-    componentWillUnmount: function() {
-       console.log('We unmounted');
-    },
-    init: function(username) {
+    }
+    componentWillUnmount() {
+        base.removeBinding(this.ref);
+    }
+    init(username) {
+
+       this.ref = base.bindToState(username, {
+           context: this,
+           asArray: true,
+           state: 'notes'
+       });
+
        getGithubInfo(username)
            .then(function(data) {
 
@@ -41,22 +49,17 @@ var Profile = React.createClass({
                 repos: data.repos
                });
            }.bind(this));
-    },
-    componentWillReceiveProps: function(newProps) {
-        console.log('New Props: ', newProps);
+    }
+    componentWillReceiveProps(newProps) {
+        base.removeBinding(this.ref);
         this.init(newProps.params.username);
-    },
-    handleAddNote: function(newNote) {
-        // Doesn't save it to firebase and persist, but Firebase was giving
-        // me errors so this is the best we can do.
-        var newNotes = this.state.notes;
-        newNotes.push(newNote);
-        newNotes = this.state.notes;
-        this.setState({
-            notes: newNotes
+    }
+    handleAddNote(newNote) {
+        base.post(this.props.params.username, {
+            data: this.state.notes.concat([newNote])
         });
-    },
-    render: function() {
+    }
+    render() {
         return (
             <div className="row">
                 <div className="col-md-4">
@@ -69,11 +72,11 @@ var Profile = React.createClass({
                     <Notes
                         username={this.props.params.username}
                         notes={this.state.notes} 
-                        addNote={this.handleAddNote} />
+                        addNote={(newNote) => this.handleAddNote(newNote)} />
                 </div>
             </div>
         )
     }
-});
+}
 
-module.exports = Profile;
+export default Profile;
